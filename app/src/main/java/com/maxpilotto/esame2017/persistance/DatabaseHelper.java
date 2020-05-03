@@ -22,13 +22,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(OrderTable.CREATE);
         db.execSQL(OrderProductsTable.CREATE);
 
-        Database database = Database.get();
-
-        database.insert(new Product(1,"Pizza",8.0),ProductTable.TABLE_NAME);
-        database.insert(new Product(1,"Panino",6.0),ProductTable.TABLE_NAME);
-        database.insert(new Product(1,"Bibita",3.0),ProductTable.TABLE_NAME);
-        database.insert(new Product(1,"Gelato",3.0),ProductTable.TABLE_NAME);
-        database.insert(new Product(1,"Caffè",1.0),ProductTable.TABLE_NAME);
+        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Pizza", 8.0).values());
+        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Panino", 6.0).values());
+        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Bibita", 3.0).values());
+        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Gelato", 3.0).values());
+        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Caffè", 1.0).values());
     }
 
     @Override

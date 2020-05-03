@@ -1,6 +1,7 @@
 package com.maxpilotto.esame2017.modules;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
 import com.maxpilotto.esame2017.Storable;
 import com.maxpilotto.esame2017.persistance.tables.ProductTable;
@@ -10,10 +11,10 @@ public class Product implements Storable {
     private String name;
     private Double price;
 
-    public Product(ContentValues values) {
-        this.id = values.getAsInteger(ProductTable._ID);
-        this.name = values.getAsString(ProductTable.COLUMN_NAME);
-        this.price = values.getAsDouble(ProductTable.COLUMN_PRICE);
+    public Product(Cursor cursor) {
+        this.id = cursor.getInt(cursor.getColumnIndex(ProductTable._ID));
+        this.name = cursor.getString(cursor.getColumnIndex(ProductTable.COLUMN_NAME));
+        this.price = cursor.getDouble(cursor.getColumnIndex(ProductTable.COLUMN_PRICE));
     }
 
     public Product(Integer id, String name, Double price) {
