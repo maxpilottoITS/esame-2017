@@ -3,6 +3,7 @@ package com.maxpilotto.esame2017.persistance;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -23,10 +24,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(OrderProductsTable.CREATE);
 
         db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Pizza", 8.0).values());
-        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Panino", 6.0).values());
-        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Bibita", 3.0).values());
-        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Gelato", 3.0).values());
-        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Caffè", 1.0).values());
+        db.insert(ProductTable.TABLE_NAME, null, new Product(2, "Panino", 6.0).values());
+        db.insert(ProductTable.TABLE_NAME, null, new Product(3, "Bibita", 3.0).values());
+        db.insert(ProductTable.TABLE_NAME, null, new Product(4, "Gelato", 3.0).values());
+        db.insert(ProductTable.TABLE_NAME, null, new Product(5, "Caffè", 1.0).values());
     }
 
     @Override

@@ -2,14 +2,28 @@ package com.maxpilotto.esame2017.modules;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.maxpilotto.esame2017.Storable;
 import com.maxpilotto.esame2017.persistance.tables.ProductTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Product implements Storable {
     private Integer id;
     private String name;
     private Double price;
+
+    public static List<Product> parseList(Cursor cursor) {
+        List<Product> products = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            products.add(new Product(cursor));
+        }
+
+        return products;
+    }
 
     public Product(Cursor cursor) {
         this.id = cursor.getInt(cursor.getColumnIndex(ProductTable._ID));

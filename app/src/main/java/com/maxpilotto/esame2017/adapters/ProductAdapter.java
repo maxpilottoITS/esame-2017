@@ -21,7 +21,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     private Map<Product, Integer> counts = new HashMap<>();
 
     public ProductAdapter(@NonNull Context context, List<Product> list) {
-        super(context, 0);
+        super(context, 0, list);
 
         for (Product p : list) {
             counts.put(p, 0);
@@ -42,7 +42,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         TextView name = view.findViewById(R.id.name);
 
         name.setText(p.getName());
-        count.setText(counts.get(p));
+        count.setText(counts.get(p) + "");
 
         view.setOnClickListener(v -> {
             counts.put(p, counts.get(p) + 1);

@@ -29,35 +29,35 @@ public class Database {
     private Database() {
     }
 
-    public void insert(Storable storable, String table) {
-        database.insert(table, null, storable.values());
+    public long insert(Storable storable, String table) {
+        return database.insert(table, null, storable.values());
     }
 
-    public void insert(ContentValues values, String table) {
-        database.insert(table, null, values);
+    public long insert(ContentValues values, String table) {
+        return database.insert(table, null, values);
     }
 
-    public Integer getOrderCount() {
-        Cursor cursor = database.rawQuery("SELECT COUNT(" + OrderTable._ID + ") as total FROM " + OrderTable.TABLE_NAME, null);
-        Integer total = 0;
-
-        if (cursor.moveToNext()) {
-            total = cursor.getInt(cursor.getColumnIndex("total"));
-        }
-
-        cursor.close();
-
-        return total;
-    }
-
-    public List<Product> getProducts() {
-        Cursor cursor = database.rawQuery("SELECT * FROM " + ProductTable.TABLE_NAME, null);
-        List<Product> products = new ArrayList<>();
-
-        while (cursor.moveToNext()) {
-            products.add(new Product(cursor));
-        }
-
-        return products;
-    }
+//    public Integer getOrderCount() {
+//        Cursor cursor = database.rawQuery("SELECT COUNT(" + OrderTable._ID + ") as total FROM " + OrderTable.TABLE_NAME, null);
+//        Integer total = 0;
+//
+//        if (cursor.moveToNext()) {
+//            total = cursor.getInt(cursor.getColumnIndex("total"));
+//        }
+//
+//        cursor.close();
+//
+//        return total;
+//    }
+//
+//    public List<Product> getProducts() {
+//        Cursor cursor = database.rawQuery("SELECT * FROM " + ProductTable.TABLE_NAME, null);
+//        List<Product> products = new ArrayList<>();
+//
+//        while (cursor.moveToNext()) {
+//            products.add(new Product(cursor));
+//        }
+//
+//        return products;
+//    }
 }
