@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Esame2017</string>
+    <string name="insertOrder">Inserisci ordine</string>
+    <string name="updateOrder">Modifica ordine</string>
+    <string name="totalOrders">Totale ordini inseriti: %d</string>
+    <string name="cancel">Annulla</string>
+    <string name="confirm">Conferma</string>
+    <string name="back">Indietro</string>
+</resources>
