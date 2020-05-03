@@ -1,8 +1,7 @@
-package com.maxpilotto.esame2017.modules;
+package com.maxpilotto.esame2017.models;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.maxpilotto.esame2017.Storable;
 import com.maxpilotto.esame2017.persistance.tables.ProductTable;

@@ -1,4 +1,4 @@
-package com.maxpilotto.esame2017.modules;
+package com.maxpilotto.esame2017.models;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -17,6 +17,11 @@ public class Order implements Storable {
     public Order(Cursor cursor) {
         this.id = cursor.getInt(cursor.getColumnIndex(OrderTable._ID));
         this.date = new Date(cursor.getInt(cursor.getColumnIndex(OrderTable.COLUMN_DATE)));
+    }
+
+    public Order(Map<Product, Integer> products, Date date) {
+        this.products = products;
+        this.date = date;
     }
 
     public Order(Integer id, Map<Product, Integer> products, Date date) {

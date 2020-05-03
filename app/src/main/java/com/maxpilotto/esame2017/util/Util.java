@@ -10,8 +10,4 @@ public class Util {
     public static String printDate(Date date) {
         return DATE_FORMAT.format(date);
     }
-
-    public static Date today() {
-        return new Date();
-    }
 }

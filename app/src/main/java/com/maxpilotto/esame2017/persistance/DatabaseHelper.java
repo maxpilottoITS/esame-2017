@@ -3,11 +3,10 @@ package com.maxpilotto.esame2017.persistance;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.maxpilotto.esame2017.modules.Product;
+import com.maxpilotto.esame2017.models.Product;
 import com.maxpilotto.esame2017.persistance.tables.OrderProductsTable;
 import com.maxpilotto.esame2017.persistance.tables.OrderTable;
 import com.maxpilotto.esame2017.persistance.tables.ProductTable;

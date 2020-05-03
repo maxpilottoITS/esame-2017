@@ -11,26 +11,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.maxpilotto.esame2017.R;
-import com.maxpilotto.esame2017.modules.Product;
+import com.maxpilotto.esame2017.models.Product;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
-    private Map<Product, Integer> counts = new HashMap<>();
+    private int[] counters;
 
     public ProductAdapter(@NonNull Context context, List<Product> list) {
         super(context, 0, list);
 
-        for (Product p : list) {
-            counts.put(p, 0);
-        }
+        counters = new int[list.size()];
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        final int pos = position;
         View view = convertView;
         Product p = getItem(position);
 
@@ -42,16 +41,30 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         TextView name = view.findViewById(R.id.name);
 
         name.setText(p.getName());
-        count.setText(counts.get(p) + "");
+        count.setText(counters[position] + "");
 
         view.setOnClickListener(v -> {
-            counts.put(p, counts.get(p) + 1);
+            counters[pos] = counters[pos] + 1;
+            count.setText(counters[pos] + "");
         });
 
         return view;
     }
 
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+
+        counters = new int[getCount()];
+    }
+
     public Map<Product, Integer> getProducts() {
-        return counts;
+        Map<Product, Integer> products = new HashMap<>();
+
+        for (int i = 0; i < getCount(); i++) {
+            products.put(getItem(i), counters[i]);
+        }
+
+        return products;
     }
 }

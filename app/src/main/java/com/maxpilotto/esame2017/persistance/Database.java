@@ -2,16 +2,9 @@ package com.maxpilotto.esame2017.persistance;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.maxpilotto.esame2017.Storable;
-import com.maxpilotto.esame2017.modules.Product;
-import com.maxpilotto.esame2017.persistance.tables.OrderTable;
-import com.maxpilotto.esame2017.persistance.tables.ProductTable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Database {
     private static Database instance;
