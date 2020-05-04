@@ -6,4 +6,7 @@
     <string name="cancel">Annulla</string>
     <string name="confirm">Conferma</string>
     <string name="back">Indietro</string>
+    <string name="date">Data</string>
+    <string name="quantity">Quantità</string>
+    <string name="totalPrice">Importo</string>
 </resources>

@@ -2,9 +2,20 @@ package com.maxpilotto.esame2017.persistance;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.maxpilotto.esame2017.Storable;
+import com.maxpilotto.esame2017.models.Order;
+import com.maxpilotto.esame2017.models.OrderDetail;
+import com.maxpilotto.esame2017.models.Product;
+import com.maxpilotto.esame2017.persistance.tables.OrderDetailTable;
+import com.maxpilotto.esame2017.persistance.tables.OrderTable;
+import com.maxpilotto.esame2017.persistance.tables.ProductTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
     private static Database instance;
@@ -22,35 +33,64 @@ public class Database {
     private Database() {
     }
 
-    public long insert(Storable storable, String table) {
-        return database.insert(table, null, storable.values());
-    }
-
     public long insert(ContentValues values, String table) {
         return database.insert(table, null, values);
     }
 
-//    public Integer getOrderCount() {
-//        Cursor cursor = database.rawQuery("SELECT COUNT(" + OrderTable._ID + ") as total FROM " + OrderTable.TABLE_NAME, null);
-//        Integer total = 0;
-//
-//        if (cursor.moveToNext()) {
-//            total = cursor.getInt(cursor.getColumnIndex("total"));
-//        }
-//
-//        cursor.close();
-//
-//        return total;
-//    }
-//
-//    public List<Product> getProducts() {
-//        Cursor cursor = database.rawQuery("SELECT * FROM " + ProductTable.TABLE_NAME, null);
-//        List<Product> products = new ArrayList<>();
-//
-//        while (cursor.moveToNext()) {
-//            products.add(new Product(cursor));
-//        }
-//
-//        return products;
-//    }
+    public Product getProduct(Integer id) {
+        Cursor cursor = database.rawQuery(
+                "SELECT * FROM " + ProductTable.TABLE_NAME + " WHERE " + ProductTable._ID + "=?",
+                new String[]{id.toString()}
+        );
+        Product product = null;
+
+        if (cursor.moveToNext()) {
+            product = new Product(cursor);
+        }
+
+        cursor.close();
+        return product;
+    }
+
+    public List<Order> getOrders() {
+        List<Order> list = new ArrayList<>();
+        Cursor orderCursor = database.rawQuery(
+                "SELECT * FROM " + OrderTable.TABLE_NAME,
+                null
+        );
+
+        while (orderCursor.moveToNext()) {
+            Order order = new Order(orderCursor);
+            Cursor productCursor = database.rawQuery("SELECT * FROM " + ProductTable.TABLE_NAME, null);
+
+            while (productCursor.moveToNext()) {
+                Product product = new Product(productCursor);
+                OrderDetail detail = null;
+                Cursor orderDetailCursor = database.query(
+                        OrderDetailTable.TABLE_NAME,
+                        null,
+                        OrderDetailTable.COLUMN_PRODUCT + "=? AND " + OrderDetailTable.COLUMN_ORDER + "=?",
+                        new String[]{
+                                product.getId().toString(),
+                                order.getId().toString()
+                        },
+                        null,
+                        null,
+                        null
+                );
+
+                if (orderDetailCursor.moveToNext()) {
+                    detail = new OrderDetail(orderDetailCursor);
+                } else {
+                    detail = new OrderDetail(product, 0);
+                }
+
+                order.getProducts().add(detail);
+            }
+
+            list.add(order);
+        }
+
+        return list;
+    }
 }

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.maxpilotto.esame2017.models.Product;
-import com.maxpilotto.esame2017.persistance.tables.OrderProductsTable;
+import com.maxpilotto.esame2017.persistance.tables.OrderDetailTable;
 import com.maxpilotto.esame2017.persistance.tables.OrderTable;
 import com.maxpilotto.esame2017.persistance.tables.ProductTable;
 
@@ -20,13 +20,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(ProductTable.CREATE);
         db.execSQL(OrderTable.CREATE);
-        db.execSQL(OrderProductsTable.CREATE);
+        db.execSQL(OrderDetailTable.CREATE);
 
-        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Pizza", 8.0).values());
-        db.insert(ProductTable.TABLE_NAME, null, new Product(2, "Panino", 6.0).values());
-        db.insert(ProductTable.TABLE_NAME, null, new Product(3, "Bibita", 3.0).values());
-        db.insert(ProductTable.TABLE_NAME, null, new Product(4, "Gelato", 3.0).values());
-        db.insert(ProductTable.TABLE_NAME, null, new Product(5, "Caffè", 1.0).values());
+        db.insert(ProductTable.TABLE_NAME, null, new Product(1, "Pizza", 8.0).values(true));
+        db.insert(ProductTable.TABLE_NAME, null, new Product(2, "Panino", 6.0).values(true));
+        db.insert(ProductTable.TABLE_NAME, null, new Product(3, "Bibita", 3.0).values(true));
+        db.insert(ProductTable.TABLE_NAME, null, new Product(4, "Gelato", 3.0).values(true));
+        db.insert(ProductTable.TABLE_NAME, null, new Product(5, "Caffè", 1.0).values(true));
     }
 
     @Override

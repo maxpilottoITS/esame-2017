@@ -37,10 +37,13 @@ public class Product implements Storable {
     }
 
     @Override
-    public ContentValues values() {
+    public ContentValues values(boolean includeId) {
         ContentValues values = new ContentValues();
 
-        values.put(ProductTable._ID,id);
+        if (includeId) {
+            values.put(ProductTable._ID,id);
+        }
+
         values.put(ProductTable.COLUMN_NAME,name);
         values.put(ProductTable.COLUMN_PRICE,price);
 

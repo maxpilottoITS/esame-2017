@@ -11,25 +11,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.maxpilotto.esame2017.R;
+import com.maxpilotto.esame2017.models.OrderDetail;
 import com.maxpilotto.esame2017.models.Product;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
-    private int[] counters;
+    private List<OrderDetail> details;
 
-    public ProductAdapter(@NonNull Context context, List<Product> list) {
-        super(context, 0, list);
+    public ProductAdapter(@NonNull Context context, List<Product> products) {
+        super(context, 0, products);
 
-        counters = new int[list.size()];
+        details = new ArrayList<>();
+
+        for (Product p : products) {
+            details.add(new OrderDetail(p,0));
+        }
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        final int pos = position;
         View view = convertView;
         Product p = getItem(position);
 
@@ -41,11 +46,11 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         TextView name = view.findViewById(R.id.name);
 
         name.setText(p.getName());
-        count.setText(counters[position] + "");
+        count.setText(details.get(position).getCount().toString());
 
         view.setOnClickListener(v -> {
-            counters[pos] = counters[pos] + 1;
-            count.setText(counters[pos] + "");
+            details.get(position).incrementCount();
+            count.setText(details.get(position).getCount().toString());
         });
 
         return view;
@@ -55,16 +60,14 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
 
-        counters = new int[getCount()];
+        details.clear();
+
+        for (int i=0; i<getCount(); i++){
+            details.add(new OrderDetail(getItem(i),0));
+        }
     }
 
-    public Map<Product, Integer> getProducts() {
-        Map<Product, Integer> products = new HashMap<>();
-
-        for (int i = 0; i < getCount(); i++) {
-            products.put(getItem(i), counters[i]);
-        }
-
-        return products;
+    public List<OrderDetail> getProducts() {
+        return details;
     }
 }

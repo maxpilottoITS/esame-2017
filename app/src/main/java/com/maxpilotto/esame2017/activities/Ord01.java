@@ -3,6 +3,7 @@ package com.maxpilotto.esame2017.activities;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,15 +16,15 @@ import androidx.loader.content.Loader;
 
 import com.maxpilotto.esame2017.R;
 import com.maxpilotto.esame2017.adapters.ProductAdapter;
+import com.maxpilotto.esame2017.models.OrderDetail;
 import com.maxpilotto.esame2017.models.Product;
 import com.maxpilotto.esame2017.persistance.OrderProvider;
-import com.maxpilotto.esame2017.persistance.tables.OrderProductsTable;
+import com.maxpilotto.esame2017.persistance.tables.OrderDetailTable;
 import com.maxpilotto.esame2017.persistance.tables.OrderTable;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import static com.maxpilotto.esame2017.util.Util.*;
 
@@ -59,14 +60,16 @@ public class Ord01 extends AppCompatActivity implements LoaderManager.LoaderCall
 
             long orderId = Long.parseLong(getContentResolver().insert(OrderProvider.URI_ORDERS, order).getLastPathSegment());
 
-            for (Map.Entry<Product, Integer> entry : adapter.getProducts().entrySet()) {
-                ContentValues values = new ContentValues();     //TODO Create a OrderWithProducts model
+            for (OrderDetail detail : adapter.getProducts()) {
+                ContentValues values = detail.values();
 
-                values.put(OrderProductsTable.COLUMN_ORDER,orderId);
-                values.put(OrderProductsTable.COLUMN_PRODUCT,entry.getKey().getId());
-                values.put(OrderProductsTable.COLUMN_COUNT,entry.getValue());
+                values.put(OrderDetailTable.COLUMN_ORDER,orderId);
 
-                getContentResolver().insert(OrderProvider.URI_ORDER_PRODUCTS,values);
+                Log.d("KYAAA",values.toString());
+
+                long id = Long.parseLong((getContentResolver().insert(OrderProvider.URI_ORDER_DETAILS,values).getLastPathSegment()));
+
+                Log.d("KYAAA",id + "");
             }
 
             finish();
