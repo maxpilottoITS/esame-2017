@@ -45,6 +45,10 @@ public class OrderDetail implements Storable {
         return values;
     }
 
+    public Double getTotalePrice() {
+        return product.getPrice() * count;
+    }
+
     public void incrementCount(){
         count++;
     }

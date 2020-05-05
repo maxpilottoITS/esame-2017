@@ -1,9 +1,9 @@
 package com.maxpilotto.esame2017.activities;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,6 +16,7 @@ import androidx.loader.content.Loader;
 
 import com.maxpilotto.esame2017.R;
 import com.maxpilotto.esame2017.adapters.ProductAdapter;
+import com.maxpilotto.esame2017.dialogs.DeleteDialog;
 import com.maxpilotto.esame2017.models.OrderDetail;
 import com.maxpilotto.esame2017.models.Product;
 import com.maxpilotto.esame2017.persistance.OrderProvider;
@@ -33,7 +34,7 @@ public class Ord01 extends AppCompatActivity implements LoaderManager.LoaderCall
 
     private TextView today;
     private ListView listView;
-    private List<Product> products;
+    private List<OrderDetail> orderDetails;
     private ProductAdapter adapter;
     private Date now = new Date();
 
@@ -45,11 +46,38 @@ public class Ord01 extends AppCompatActivity implements LoaderManager.LoaderCall
         today = findViewById(R.id.today);
         listView = findViewById(R.id.list);
 
-        products = new ArrayList<>();
-        adapter = new ProductAdapter(this, products);
+        orderDetails = new ArrayList<>();
+        adapter = new ProductAdapter(this, orderDetails);
 
         today.setText(printDate(now));
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            orderDetails.get(position).incrementCount();
+            adapter.notifyDataSetChanged();
+        });
+        listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            Product p = orderDetails.get(position).getProduct();
+            DeleteDialog dialog = new DeleteDialog(
+                    getString(R.string.deleteTitle, p.getName()),
+                    getString(R.string.deleteMsg, p.getName())
+            );
+            dialog.setCallback(new DeleteDialog.Callback() {
+                @Override
+                public void onConfirm(DialogInterface dialog) {
+                    orderDetails.get(position).setCount(0);
+                    adapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show(getSupportFragmentManager(), null);
+
+            return true;
+        });
 
         findViewById(R.id.cancel).setOnClickListener(v -> {
             finish();
@@ -60,16 +88,12 @@ public class Ord01 extends AppCompatActivity implements LoaderManager.LoaderCall
 
             long orderId = Long.parseLong(getContentResolver().insert(OrderProvider.URI_ORDERS, order).getLastPathSegment());
 
-            for (OrderDetail detail : adapter.getProducts()) {
+            for (OrderDetail detail : this.orderDetails) {
                 ContentValues values = detail.values();
 
-                values.put(OrderDetailTable.COLUMN_ORDER,orderId);
+                values.put(OrderDetailTable.COLUMN_ORDER, orderId);
 
-                Log.d("KYAAA",values.toString());
-
-                long id = Long.parseLong((getContentResolver().insert(OrderProvider.URI_ORDER_DETAILS,values).getLastPathSegment()));
-
-                Log.d("KYAAA",id + "");
+                getContentResolver().insert(OrderProvider.URI_ORDER_DETAILS, values);
             }
 
             finish();
@@ -86,14 +110,18 @@ public class Ord01 extends AppCompatActivity implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(@NonNull Loader loader, Cursor data) {
-        products.clear();
-        products.addAll(Product.parseList(data));
+        orderDetails.clear();
+
+        for (Product p : Product.parseList(data)) {
+            orderDetails.add(new OrderDetail(p,0));
+        }
+
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader loader) {
-        products.clear();
+        orderDetails.clear();
         adapter.notifyDataSetChanged();
     }
 }

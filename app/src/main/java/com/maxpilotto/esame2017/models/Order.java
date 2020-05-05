@@ -61,7 +61,7 @@ public class Order implements Storable {
         Double total = 0.0;
 
         for (OrderDetail detail : products) {
-            total += detail.getProduct().getPrice();
+            total += detail.getTotalePrice();
         }
 
         return total;
