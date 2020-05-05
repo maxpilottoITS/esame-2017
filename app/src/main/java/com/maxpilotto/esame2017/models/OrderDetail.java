@@ -7,10 +7,23 @@ import com.maxpilotto.esame2017.Storable;
 import com.maxpilotto.esame2017.persistance.Database;
 import com.maxpilotto.esame2017.persistance.tables.OrderDetailTable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrderDetail implements Storable {
     private Integer id;
     private Product product;
     private Integer count;
+
+    public static List<OrderDetail> parseList(Cursor cursor) {
+        List<OrderDetail> details = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            details.add(new OrderDetail(cursor));
+        }
+
+        return details;
+    }
 
     public OrderDetail(Cursor cursor) {
         this(

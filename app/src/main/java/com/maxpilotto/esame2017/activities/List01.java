@@ -66,11 +66,24 @@ public class List01 extends AppCompatActivity {
             return true;
         });
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            startActivity(new Intent(this, Ord02.class));
+            Intent i = new Intent(this, Ord02.class);
+
+            i.putExtra(Ord02.ORDER_KEY, orders.get(position).getId());
+
+            startActivity(i);
         });
 
         findViewById(R.id.back).setOnClickListener(v -> {
             finish();
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        orders.clear();
+        orders.addAll(Database.get().getOrders());
+        adapter.notifyDataSetChanged();
     }
 }

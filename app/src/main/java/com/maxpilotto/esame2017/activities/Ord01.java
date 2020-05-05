@@ -43,7 +43,7 @@ public class Ord01 extends AppCompatActivity implements LoaderManager.LoaderCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ord01);
 
-        today = findViewById(R.id.today);
+        today = findViewById(R.id.total);
         listView = findViewById(R.id.list);
 
         orderDetails = new ArrayList<>();

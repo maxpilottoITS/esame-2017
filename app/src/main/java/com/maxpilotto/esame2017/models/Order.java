@@ -19,7 +19,7 @@ public class Order implements Storable {
 
     public Order(Cursor cursor) {
         this.id = cursor.getInt(cursor.getColumnIndex(OrderTable._ID));
-        this.date = new Date(cursor.getInt(cursor.getColumnIndex(OrderTable.COLUMN_DATE)));
+        this.date = new Date(cursor.getLong(cursor.getColumnIndex(OrderTable.COLUMN_DATE)));
         this.products = new ArrayList<>();
     }
 

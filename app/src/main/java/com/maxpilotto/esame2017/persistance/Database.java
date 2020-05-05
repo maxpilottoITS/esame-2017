@@ -86,11 +86,14 @@ public class Database {
                 }
 
                 order.getProducts().add(detail);
+                orderDetailCursor.close();
             }
 
+            productCursor.close();
             list.add(order);
         }
 
+        orderCursor.close();
         return list;
     }
 }
