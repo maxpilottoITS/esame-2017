@@ -9,6 +9,8 @@
     <string name="date">Data</string>
     <string name="quantity">Quantità</string>
     <string name="totalPrice">Importo</string>
-    <string name="deleteTitle">Azzerare %s?</string>
-    <string name="deleteMsg">La quantità di %s verrà azzerata</string>
+    <string name="resetTitle">Azzerare %s?</string>
+    <string name="resetMsg">La quantità di %s verrà azzerata</string>
+    <string name="deleteTitle">Eliminare %s?</string>
+    <string name="deleteMsg">L\'ordine fatta in data %s verrà eliminato</string>
 </resources>

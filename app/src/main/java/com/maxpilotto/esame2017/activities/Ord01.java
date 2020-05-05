@@ -58,8 +58,8 @@ public class Ord01 extends AppCompatActivity implements LoaderManager.LoaderCall
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             Product p = orderDetails.get(position).getProduct();
             DeleteDialog dialog = new DeleteDialog(
-                    getString(R.string.deleteTitle, p.getName()),
-                    getString(R.string.deleteMsg, p.getName())
+                    getString(R.string.resetTitle, p.getName()),
+                    getString(R.string.resetMsg, p.getName())
             );
             dialog.setCallback(new DeleteDialog.Callback() {
                 @Override

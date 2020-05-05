@@ -37,7 +37,7 @@ public class ProductAdapter extends ArrayAdapter<OrderDetail> {
         TextView count = view.findViewById(R.id.count);
         TextView name = view.findViewById(R.id.name);
 
-        name.setText(o.getProduct().getId().toString());
+        name.setText(o.getProduct().getName());
         count.setText(o.getCount().toString());
 
         return view;
